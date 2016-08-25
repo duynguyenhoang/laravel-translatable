@@ -2,15 +2,20 @@ machine:
   php:
     version: 7.0.4
 
-checkout:
-  post:
-    # turn xdebug off
-    - mv /opt/circleci/php/$(phpenv global)/etc/conf.d/xdebug.ini /opt/circleci/php/$(phpenv global)/etc/conf.d/xdebug.ini_disabled
-
 dependencies:
   pre:
     - composer self-update
+    - mysql -e 'create database translatable_test;'
+    - echo "CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret'; \n GRANT ALL PRIVILEGES ON * . * TO 'homestead'@'localhost'; \nFLUSH PRIVILEGES; \n" | mysql -u root
+
   override:
-    - composer install --prefer-source --no-interaction
+    - echo 1
+
+test:
+  override:
+    # turn xdebug off
+    - mv /opt/circleci/php/$(phpenv global)/etc/conf.d/xdebug.ini /opt/circleci/php/$(phpenv global)/etc/conf.d/xdebug.ini_disabled
+    - composer require illuminate/support:"5.1.*"
     # turn xdebug on
     - mv /opt/circleci/php/$(phpenv global)/etc/conf.d/xdebug.ini_disabled /opt/circleci/php/$(phpenv global)/etc/conf.d/xdebug.ini
+    - phpunit
