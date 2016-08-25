@@ -65,12 +65,13 @@ class TestsBase extends TestCase
         $app['config']->set('database.default', 'mysql');
         $app['config']->set('database.connections.mysql', [
             'driver'   => 'mysql',
-            'host' => 'localhost',
+            'host' => '127.0.0.1',
             'database' => static::DB_NAME,
             'username' => static::DB_USERNAME,
             'password' => static::DB_PASSWORD,
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
+            'strict' => false,
         ]);
         $app['config']->set('translatable.locales', ['el', 'en', 'fr', 'de', 'id']);
     }
