@@ -2,3 +2,15 @@ machine:
   php:
     version: 7.0.4
 
+checkout:
+  post:
+    # turn xdebug off
+    - mv /opt/circleci/php/$(phpenv global)/etc/conf.d/xdebug.ini /opt/circleci/php/$(phpenv global)/etc/conf.d/xdebug.ini_disabled
+
+dependencies:
+  pre:
+    - composer self-update
+  override:
+    - composer install --prefer-source --no-interaction
+    # turn xdebug on
+    - mv /opt/circleci/php/$(phpenv global)/etc/conf.d/xdebug.ini_disabled /opt/circleci/php/$(phpenv global)/etc/conf.d/xdebug.ini
