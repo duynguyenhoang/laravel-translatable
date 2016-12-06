@@ -255,9 +255,11 @@ trait Translatable
                 $this->getTranslationOrNew($key)->fill($values);
                 unset($attributes[$key]);
             } else {
+                $originalKey = $key;
                 list($key, $locale) = $this->getKeyWithLocal($key);
                 if ($this->isTranslationAttribute($key)) {
                     $this->getTranslationOrNew($locale)->fill([$key => $values]);
+                    unset($attributes[$originalKey]);
                 }
             }
         }
@@ -649,7 +651,7 @@ trait Translatable
         if ($locales === null) {
             $this->translations()->delete();
         } else {
-            $locales = (array)$locales;
+            $locales = (array) $locales;
             $this->translations()->whereIn($this->getLocaleKey(), $locales)->delete();
         }
 
