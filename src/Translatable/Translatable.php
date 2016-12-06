@@ -464,7 +464,7 @@ trait Translatable
 
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $locale
+     * @param string                                $locale
      *
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
